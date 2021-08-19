@@ -222,15 +222,5 @@ async function onStart() {
     notion = new Client({ auth: NOTION_TOKEN })
     const { context = {} } = github;
     getPageUpdates();
-    /*fs.readFile('creds.json',async(err,content) => {
-        if(err) {
-            console.log('error reading file',err);
-        } else {
-            let keys = JSON.parse(content)
-            notion = new Client({ auth: keys.notion })
-            octokit2 = new Octokit({ auth: keys.github });
-            getPageUpdates();
-        }
-    })*/
 }
 onStart()
