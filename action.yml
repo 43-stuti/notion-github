@@ -9,6 +9,15 @@ inputs:
   SECRET_GITHUB:
     description: 'Github token'
     required: true
+  OWNER:
+    description: 'Repo owner'
+    required: true
+  REPO:
+    description: 'Repo name'
+    required: true
+  BLOCK_NAME:
+    description: 'Notion block name'
+    required: true
 
 runs:
   using: 'node12'
