@@ -11,3 +11,6 @@ jobs:
         with:
           SECRET_GITHUB: ${{secrets.SECRET_GITHUB}}
           NOTION_SECRET: ${{secrets.NOTION_SECRET}}
+          OWNER: 'luisaph'
+          REPO: 'the-code-of-music'
+          BLOCK_NAME: 'what'

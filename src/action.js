@@ -19,14 +19,17 @@ let fileNames = [];
 let imageUrls = [];
 let contentArray = [];
 const GITHUB_TOKEN = core.getInput('SECRET_GITHUB');
-const NOTION_TOKEN = core.getInput('NOTION_SECRET')
+const NOTION_TOKEN = core.getInput('NOTION_SECRET');
+const OWNER = core.getInput('OWNER');
+const REPO = core.getInput('REPO');
+const BLOCK_NAME = core.getInput('BLOCK_NAME');
 async function getPageUpdates() {
     let response = await notion.search({
-        query:'what'
+        query:BLOCK_NAME
     });
     if(response.results && response.results.length) {
         let blockId = response.results[0].id;
-        await getBlockContent(blockId,'what');
+        await getBlockContent(blockId,BLOCK_NAME);
        
         await updateDoc();
         updateImages();
@@ -143,8 +146,8 @@ async function updateImages() {
 //github utils
 async function prepareTree(content,path,array) {
     let blob = await octokit2.rest.git.createBlob({
-        owner:'luisaph',
-        repo:'the-code-of-music',
+        owner:OWNER,
+        repo:REPO,
         content:content,
         encoding:'base64'
       });
@@ -160,14 +163,14 @@ async function updateRef(treeContent,message,branch,path,deleteArray) {
     let deleteFunc = async (filename) => {
         let filepath = path+"/"+filename;
         console.log('file',filepath);
-        return axios.get("https://api.github.com/repos/luisaph/the-code-of-music/contents/"+filepath,{})
+        return axios.get("https://api.github.com/repos/"+OWNER+"/"+REPO+"/contents/"+filepath,{})
         .then(async(response) => {
             
             if(response.data.sha) {
                 console.log('response')
                 let del = await octokit2.rest.repos.deleteFile({
-                    owner: 'luisaph',
-                    repo: 'the-code-of-music',
+                    owner: OWNER,
+                    repo: REPO,
                     path:path+'/'+filename,
                     message:'delete files',
                     sha:response.data.sha,
@@ -186,18 +189,18 @@ async function updateRef(treeContent,message,branch,path,deleteArray) {
 
     let tree = await octokit2.rest.git.createTree({
         tree: treeContent,
-        owner:'luisaph',
-        repo:'the-code-of-music'
+        owner:OWNER,
+        repo:REPO
     });
     let commit = await octokit2.rest.git.createCommit({
-                    owner:'luisaph',
-                    repo:'the-code-of-music',
+                    owner:OWNER,
+                    repo:REPO,
                     tree:tree.data.sha,
                     message:message
                 })          
     let update = await octokit2.rest.git.updateRef({
-        owner:'luisaph',
-        repo:'the-code-of-music',
+        owner:OWNER,
+        repo:REPO,
         ref:'heads/'+branch,
         path:path,
         sha:commit.data.sha,
@@ -209,8 +212,8 @@ async function updateRef(treeContent,message,branch,path,deleteArray) {
       }
     await Promise.all(promises);
     let merge = octokit2.rest.repos.merge({
-                owner:'luisaph',
-                repo:'the-code-of-music',
+                owner:OWNER,
+                repo:REPO,
                 base:'master',
                 head:branch,
             });
