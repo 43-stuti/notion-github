@@ -1,6 +1,8 @@
 const pkg1 = require('@notionhq/client');
 const axios =  require('axios');
 const pkg2 = require('@octokit/rest');
+const core = require('@actions/core');
+const github = require('@actions/github');
 const fs = require('fs')
 const { Client } = pkg1;
 const { Octokit } = pkg2;
@@ -16,6 +18,8 @@ let treeItemsImg = [];
 let fileNames = [];
 let imageUrls = [];
 let contentArray = [];
+const GITHUB_TOKEN = core.getInput('SECRET_GITHUB');
+const NOTION_TOKEN = core.getInput('NOTION_SECRET')
 async function getPageUpdates() {
     let response = await notion.search({
         query:'what'
@@ -213,7 +217,11 @@ async function updateRef(treeContent,message,branch,path,deleteArray) {
 }
 //
 async function onStart() {
-    console.log('start')
+    console.log('start');
+    octokit2 = github.getOctokit(GITHUB_TOKEN);
+    notion = new Client({ auth: NOTION_TOKEN })
+    const { context = {} } = github;
+    getPageUpdates();
     /*fs.readFile('creds.json',async(err,content) => {
         if(err) {
             console.log('error reading file',err);
