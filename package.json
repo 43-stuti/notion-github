@@ -1,0 +1,26 @@
+{
+  "name": "notion2github",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ncc build src/action.js -o dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/43-stuti/notion-github.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/43-stuti/notion-github/issues"
+  },
+  "homepage": "https://github.com/43-stuti/notion-github#readme",
+  "dependencies": {
+    "@notionhq/client": "^0.2.4",
+    "@octokit/rest": "^18.9.1",
+    "@vercel/ncc": "^0.29.1",
+    "axios": "^0.21.1"
+  }
+}
