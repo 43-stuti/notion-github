@@ -160,19 +160,19 @@ async function updateRef(treeContent,message,branch,path,deleteArray) {
     let deleteFunc = async (filename) => {
         let filepath = path+"/"+filename;
         console.log('file',filepath);
-        return axios.get("https://api.github.com/repos/luisaph/the-code-of-music/contents/content_script/what.md",{})
+        return axios.get("https://api.github.com/repos/luisaph/the-code-of-music/contents/"+filepath,{})
         .then(async(response) => {
             
             if(response.data.sha) {
                 console.log('response')
-                /*let del = await octokit2.rest.repos.deleteFile({
+                let del = await octokit2.rest.repos.deleteFile({
                     owner: 'luisaph',
                     repo: 'the-code-of-music',
                     path:path+'/'+filename,
                     message:'delete files',
                     sha:response.data.sha,
                 });
-                console.log('delete')*/
+                console.log('delete')
                 return true
             }
             return true
