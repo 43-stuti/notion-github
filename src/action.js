@@ -178,7 +178,7 @@ async function updateRef(treeContent,message,branch,path,deleteArray) {
             return true
         })
         .catch((error) => {
-            console.log('ERROR');
+            console.log('ERROR',error);
             return true;
         })
     }  
