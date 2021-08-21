@@ -175,7 +175,7 @@ async function updateRef(treeContent,message,branch,path,deleteArray) {
                     owner: OWNER,
                     repo: REPO,
                     path:path+'/'+filename,
-                    message:'delete files',
+                    message:'deleting  files',
                     sha:response.data.sha,
                 });
                 console.log('delete')
