@@ -24,6 +24,7 @@ const OWNER = core.getInput('OWNER');
 const REPO = core.getInput('REPO');
 const BLOCK_NAME = core.getInput('BLOCK_NAME');
 async function getPageUpdates() {
+    console.log('fetching notion content');
     let response = await notion.search({
         query:BLOCK_NAME
     });
@@ -33,6 +34,8 @@ async function getPageUpdates() {
        
         await updateDoc();
         updateImages();
+    } else {
+        console.log('no data found for block:',BLOCK_NAME);
     }
     
 }
@@ -220,7 +223,6 @@ async function updateRef(treeContent,message,branch,path,deleteArray) {
 }
 //
 async function onStart() {
-    console.log('start');
     octokit2 = github.getOctokit(GITHUB_TOKEN);
     notion = new Client({ auth: NOTION_TOKEN })
     const { context = {} } = github;

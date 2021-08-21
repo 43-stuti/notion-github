@@ -13,4 +13,4 @@ jobs:
           NOTION_SECRET: ${{secrets.NOTION_SECRET}}
           OWNER: 'luisaph'
           REPO: 'the-code-of-music'
-          BLOCK_NAME: 'what'
+          BLOCK_NAME: 'Book'
